@@ -377,7 +377,7 @@ class level3Sum extends SkateScene {
         this.sumText = this.add.text(
             300, 
             300,
-            `IT'S BEEN: ${this.time * .001} seconds! QUICKLY, GET GOING!`,
+            'DID YOU MAKE IT IN TIME??',
             {
                 font: "italic 20px Pacifico",
                 color: "#ffffff",
