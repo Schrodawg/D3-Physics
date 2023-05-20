@@ -444,7 +444,7 @@ window.onload = function(){
             default: 'arcade',
             arcade: {
                 gravity: { y: 300 },
-                debug: true
+                debug: false
             }
         },
         scene: [initial, intro, level1, level1Sum, level2, level2Sum, level3, level3Sum, fin],
