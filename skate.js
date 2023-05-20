@@ -4,7 +4,7 @@ class SkateScene extends Phaser.Scene {
         this.time = data.time || [];
         this.actualTime = data.actualTime || 0;
         console.log(this.time)
-        console.log('INIT: ', this.actualTime)
+        
     }
 
     constructor(key) {
@@ -21,7 +21,6 @@ class SkateScene extends Phaser.Scene {
     }
 
     recordTime(levelTime) {
-        console.log(levelTime);
         this.time.push(levelTime);
         this.actualTime = 0;
         this.actualTime = this.time[0];

@@ -12,13 +12,13 @@ class initial extends SkateScene {
         const startButton = this.add.text(this.w * .45, this.h * .45, 'Click Here?', { fill: '#ffffff' })
           .setInteractive()
           .on('pointerdown', () => {
-            this.scene.start('intro')
+            this.gotoScene('intro')
         })   
       }
     update(){}
     }
 
-///SCENE 1
+///Intro
 class intro extends SkateScene {
     constructor() {
         super('intro');
@@ -76,7 +76,7 @@ class intro extends SkateScene {
         setTimeout(() => {
             this.cameras.main.fadeOut(1000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                this.scene.start('level1')
+                this.gotoScene('level1')
             })
         }, 9000);
     }
@@ -100,7 +100,7 @@ class level1 extends SkateScene {
         this.h = this.game.config.height;
         //Pipes
         const platforms = this.physics.add.staticGroup();
-        platforms.create(230, 200, 'pipe').setDisplaySize(400,10).refreshBody()
+        platforms.create(200, 200, 'pipe').setDisplaySize(400,10).refreshBody()
             .setSize(400, 10, true);
         platforms.create(550, 645, 'pipe').setDisplaySize(this.w,10).refreshBody()
             .setSize(this.w, 10, true);
@@ -167,7 +167,7 @@ class level1Sum extends SkateScene {
         this.sumText = this.add.text(
             300, 
             300,
-            `YOU BEAT THAT IN: ${this.time * .001} seconds!`,
+            `HURRY! IT'S TAKEN YOU: ${this.time * .001} seconds TO GET HERE!`,
             {
                 font: "italic 20px Pacifico",
                 color: "#ffffff",
@@ -179,7 +179,7 @@ class level1Sum extends SkateScene {
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.gotoScene('level2')
         })
-    }, 8000);
+    }, 5000);
     }
 }
 
@@ -274,7 +274,7 @@ class level2Sum extends SkateScene {
         this.sumText = this.add.text(
             300, 
             300,
-            `YOU BEAT THAT IN: ${this.time * .001} seconds!`,
+            `IT'S BEEN: ${this.time * .001} seconds! QUICKLY, GET GOING!`,
             {
                 font: "italic 20px Pacifico",
                 color: "#ffffff",
@@ -286,7 +286,7 @@ class level2Sum extends SkateScene {
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.gotoScene('level3')
         })
-    }, 8000);
+    }, 5000);
     }
 }
 
@@ -367,7 +367,7 @@ class level3 extends SkateScene {
 ///Level 3 Summary
 class level3Sum extends SkateScene {
     constructor() {
-        super('level3Sum');
+        super('level3Sum')
     }
     preload(){
         this.load.path = './assets/';
@@ -377,19 +377,19 @@ class level3Sum extends SkateScene {
         this.sumText = this.add.text(
             300, 
             300,
-            `YOU BEAT THAT IN: ${this.time * .001} seconds!`,
+            `IT'S BEEN: ${this.time * .001} seconds! QUICKLY, GET GOING!`,
             {
                 font: "italic 20px Pacifico",
                 color: "#ffffff",
             }
         )
-    // Fade to black TIMED
+        // Fade to black TIMED
     setTimeout(() => {
         this.cameras.main.fadeOut(1000, 0, 0, 0);
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.gotoScene('fin')
         })
-    }, 8000);
+    }, 5000);
     }
 }
 
@@ -402,11 +402,11 @@ class fin extends SkateScene {
         this.load.path = './assets/';
         this.load.image('board', 'skateboard.png');
     }
-    create() {
+    create(time) {
         this.sumText = this.add.text(
             450, 
             300,
-            "GREAT JOB, YOU MADE IT!",
+            `GREAT JOB, YOU MADE IT IN: ${this.game.getTime() * .001} seconds!`,
             {
                 font: "italic 20px Pacifico",
                 color: "#ffffff",
@@ -424,7 +424,6 @@ class fin extends SkateScene {
         this.tweens.add({
             targets: board,
             angle: 360*10,
-            yoyo: true,
             flipX: true,
             duration: 3000, 
             delay: 4300,
@@ -448,7 +447,7 @@ window.onload = function(){
                 debug: true
             }
         },
-        scene: [initial, intro, level1, level1Sum, level2, level2Sum,level3, level3Sum, fin],
+        scene: [initial, intro, level1, level1Sum, level2, level2Sum, level3, level3Sum, fin],
     }
     let game = new Phaser.Game(config);
 }
