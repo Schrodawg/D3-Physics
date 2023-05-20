@@ -148,7 +148,7 @@ class level1 extends SkateScene {
 
         if (up.isDown && this.board.body.touching.down)
         {
-            this.board.setVelocityY(-330);
+            this.board.setVelocityY(-300);
         }
         
     }
@@ -173,8 +173,123 @@ class level1Sum extends SkateScene {
                 color: "#ffffff",
             }
         )
+    // Fade to black TIMED
+    setTimeout(() => {
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+            this.gotoScene('level2')
+        })
+    }, 8000);
     }
 }
+
+///Level 2
+class level2 extends SkateScene {
+    constructor() {
+        super('level2');
+    }
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('board', 'skateboard.png');
+        this.load.image('pipe', 'pipe.png');
+        this.load.image('tunnel', 'tunnel.png');
+    }
+    create(time) {
+        //Canvas size
+        this.w = this.game.config.width;
+        this.h = this.game.config.height;
+        //Pipes
+        const platforms = this.physics.add.staticGroup();
+        platforms.create(1000, 510, 'pipe').setDisplaySize(400,10).refreshBody()
+            .setSize(400, 10, true);
+        platforms.create(500, 375, 'pipe').setDisplaySize(400,10).refreshBody()
+            .setSize(400, 10, true);
+        platforms.create(0, 275, 'pipe').setDisplaySize(400,10).refreshBody()
+            .setSize(400, 10, true);
+        platforms.create(750, 200, 'pipe').setDisplaySize(600,10).refreshBody()
+            .setSize(600, 10, true);
+        platforms.create(550, 645, 'pipe').setDisplaySize(this.w,10).refreshBody()
+            .setSize(this.w, 10, true);
+        
+        //Board
+        this.board = this.physics.add.sprite(100, 500, 'board').setDisplaySize(600,250)
+        .setSize(575, 250, true)
+        //Tunnel    
+        this.tunnel = this.physics.add.staticGroup();
+        this.tunnel.create(1200, 100, 'tunnel').setDisplaySize(600, 300)
+            .setSize(500, 350)
+            .setAngle(180);
+        //Physics
+        this.board.setBounce(0.2);
+        this.board.setCollideWorldBounds(true);
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.physics.add.collider(this.board, platforms);
+        this.physics.add.collider(
+            this.board,
+            this.tunnel, 
+            (board, tunnel) =>
+            {
+                if (board.body.touching.right && tunnel.body.touching.left)
+                {
+                    let levelTime = this.game.getTime();
+                    this.recordTime(levelTime)
+                    this.gotoScene('level2Sum');
+                }
+            });
+      }
+    update() {
+        const { left, right, up } = this.cursors;
+
+        if (left.isDown)
+        {
+            this.board.setVelocityX(-160);
+        }
+        else if (right.isDown)
+        {
+            this.board.setVelocityX(160);
+        }
+        else
+        {
+            this.board.setVelocityX(0);
+        }
+
+        if (up.isDown && this.board.body.touching.down)
+        {
+            this.board.setVelocityY(-300);
+        }
+        
+    }
+}
+
+///Level 2 Summary
+class level2Sum extends SkateScene {
+    constructor() {
+        super('level2Sum');
+    }
+    preload(){
+        this.load.path = './assets/';
+        this.load.image('board', 'skateboard.png');
+    }
+    create() {
+        this.sumText = this.add.text(
+            300, 
+            300,
+            `YOU BEAT THAT IN: ${this.time * .001} seconds!`,
+            {
+                font: "italic 20px Pacifico",
+                color: "#ffffff",
+            }
+        )
+    // Fade to black TIMED
+    setTimeout(() => {
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+            this.gotoScene('level3')
+        })
+    }, 8000);
+    }
+}
+
 
 
 window.onload = function(){
@@ -192,7 +307,7 @@ window.onload = function(){
                 debug: true
             }
         },
-        scene: [level1, level1Sum],
+        scene: [level2, level2Sum],
     }
     let game = new Phaser.Game(config);
 }
