@@ -113,14 +113,20 @@ class level1 extends SkateScene {
         this.tunnel.create(100, 500, 'tunnel').setDisplaySize(600, 300)
             .setSize(200, 400)
         //Mobile movement keys
+        
         //Button goUp
-        this.goUp = this.add.circle(this.w*.5, this.h*.5, 25).setInteractive();
+        this.goUp = this.add.circle(this.w*.5, this.h*.5, 25, '0xff0000')
+        .setInteractive();
         this.goUp.setAlpha(0.5);
+        
         //Button goLeft
-        this.goLeft = this.add.circle(75, 115, 25).setInteractive();
+        this.goLeft = this.add.circle(75, 115, 25,  '0xff0000')
+        .setInteractive();
         this.goLeft.setAlpha(0.5);
+        
         //Button goRight
-        this.goRight = this.add.circle(165, 115, 25).setInteractive();
+        this.goRight = this.add.circle(165, 115, 25,  '0xff0000')
+        .setInteractive();
         this.goRight.setAlpha(0.5);	
 
         //Physics
@@ -147,35 +153,35 @@ class level1 extends SkateScene {
         //By clicking the button goUp
         this.goUp.on('pointerdown', function (pointer){
             this.goUp.setAlpha(1);
-            this.key.up.isDown = true;
+            up.isDown = true;
         },this);
         //stop clicking the button goUp
         this.goUp.on('pointerup', function (pointer){
             this.goUp.setAlpha(0.5);
-            this.key.up.isDown = false;
+            up.isDown = false;
         },this);
         
         //By clicking the button goLeft
         this.goLeft.on('pointerdown', function (pointer){
             this.goLeft.setAlpha(1);
-            this.key.left.isDown = true;
+            left.isDown = true;
         },this);
         //stop clicking the button goLeft
         this.goLeft.on('pointerup', function (pointer){
             this.goLeft.setAlpha(0.5);
-            this.key.left.isDown = false;
+            left.isDown = false;
         },this);
         
         //By clicking the button goRight
         this.goRight.on('pointerdown', function (pointer){
             this.goRight.setAlpha(1);
-            this.key.right.isDown = true;
+            right.isDown = true;
         },this);
         //stop clicking the button goRight
         this.goRight.on('pointerup', function (pointer){
             this.goRight.setAlpha(0.5);
-            this.key.right.isDown = false;
-        },this);
+            right.isDown = false;
+        },this);  
 
         if (left.isDown)
         {
